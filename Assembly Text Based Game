@@ -1,0 +1,1225 @@
+TITLE MASM Template
+
+INCLUDE Irvine32.inc
+.data     
+; BELOW HERE YOU WILL DISPLAY YOUR MESSAGES
+
+; MISC
+placeholder byte "-> ",0      ; PLACEHOLDER FOR INPUTS
+digitcode dword 0             ; THE PASSWORD FOR THE PIN 
+Carkeys dword 0               ; STORES CAR KEYS IN A VAR
+aptkeys dword 0               ; STORES APT KEYS IN A VAR
+skullkeys dword 0             ; STORES SKULL KEYS IN A VAR
+shoe		   byte "    |  |            ",0dh,0ah      ; A SHOE IMAGE FOR THE STORY
+               byte "   _|  |_           ",0dh, 0ah
+               byte "  (_\__/(,_         ",0dh, 0ah
+               byte "  | \ `_////-._     ",0dh, 0ah
+               byte "  L_/__ ''=> __/`\   ",0dh, 0ah
+               byte "  |=====;__/___. /   ",0dh, 0ah
+               byte "  '-'-'-""""""`     ",0dh, 0ah, 0
+findwo dword 1 DUP(?)                                  ; THIS ALLOWS THE USER TO INPUT KEYS FROM THE KEYBOARD AND WILL STORE IT FOR LATER USE
+zombieface byte " ___________________",0dh,0ah         ; ZOMBIE FACE FOR THE STORY
+		   byte "|                   |",0dh, 0ah
+		   byte "|                   |",0dh, 0ah
+		   byte "|                   |",0dh, 0ah
+		   byte "|   o          0    |",0dh, 0ah
+		   byte "|                   |",0dh, 0ah
+		   byte "|   ____________    |",0dh, 0ah
+		   byte "|   \___________\   |",0dh, 0ah
+		   byte " ___________________",0dh, 0ah, 0
+zombieface1 byte "         ___________________",0dh,0ah   ; ANOTHER ZOMBIES FACE FOR THE STORY
+		   byte "        |                   |",0dh, 0ah
+		   byte "        |                   |",0dh, 0ah
+		   byte "        |  _                |",0dh, 0ah
+		   byte "        | |_|          0    |",0dh, 0ah
+		   byte "        |                   |",0dh, 0ah
+		   byte "        |   ____________    |",0dh, 0ah
+		   byte "        |   \A_A_A__V___\   |",0dh, 0ah
+		   byte "         ___________________",0ah, 0ah, 0
+
+posguess dword 1 DUP(?)           ; POSITIVE CABLES, THIS STORES THE USER INPUT AND ONLY 1 KEY
+negguess dword 1 DUP(?)           ; NEGATIVE CABLES THIS STORES THE USER INPUT AND ONLY 1 KEY
+
+
+; ----------------------------------------------------------
+
+; THE INTRODUCTION
+
+ title1 byte "      _______ _            _               _      _____                 _               ",0dh,0ah  ;THE TITLE
+        byte "     |__   __| |          | |             | |    / ____|               (_)              ",0dh,0ah
+        byte "        | |  | |__   ___  | |     __ _ ___| |_  | (___  _ __   ___  ___ _  ___  ___     ",0dh,0ah
+        byte "        | |  | '_ \ / _ \ | |    / _` / __| __|  \___ \| '_ \ / _ \/ __| |/ _ \/ __|    ",0dh,0ah
+        byte "        | |  | | | |  __/ | |___| (_| \__ \ |_   ____) | |_) |  __/ (__| |  __/\__ \    ",0dh,0ah
+        byte "        |_|  |_| |_|\___| |______\__,_|___/\__| |_____/| .__/ \___|\___|_|\___||___/    ",0dh,0ah
+        byte "                                                       | |                             ",0dh,0ah
+        byte "                                                       |_|                             ",0dh,0ah,0
+
+intromessage byte "Introduction:",0dh, 0ah              ; INTRO MESSAGE
+             byte "Earth - 2240 ",0dh, 0ah
+			 byte "After an all out war between the 2 superpowers, The United States & China, the ",0dh, 0ah
+			 byte "new chemical bombs they dropped caused a genetic mutation within the human ",0dh, 0ah
+			 byte "bodies causing them to become brain dead and savages turning against one ",0dh, 0ah
+	         byte "another. This mutation made humans thirsty for human flesh, zombies is what ",0dh, 0ah
+		     byte "they are. 1 year after the chemical bombings, the mutation caused over 7 billion ",0dh, 0ah
+	         byte "humans to turn into zombies. Full Anarchy has begun, there are no more governments,",0dh, 0ah
+			 byte "and everyone is all for themselves, trying to survive.",0dh, 0ah
+	         byte "Your choices will affect what will happen in the future.",0dh, 0ah
+			 byte "Press 1 to begin: ",0dh, 0ah
+			 byte "1. Begin",0dh, 0ah, 0
+
+bruh        byte "You really can't press 1? PRESS 1 NOW! ",0dh, 0ah, 0  ; WHEN THE USER DOESNT PRESS 1
+Er1			byte "Incorrect Pin! ",0dh, 0ah                             ; ERROR 1 FOR PIN
+		    byte "2 more attempts.",0dh, 0ah, 0
+
+Er2 		byte "Incorrect Pin! ",0dh, 0ah                             ; ERROR 2 FOR PIN 
+		    byte "1 more attempt.",0dh, 0ah, 0	
+			
+Er3 		byte "Incorrect Pin! ",0dh, 0ah                             ; ERROR 3 FOR PI 
+			byte "No more attempts, you are locked out ",0dh, 0ah, 0
+		    
+			 
+; -------------------------------------------------------------------------
+
+
+
+; LEO STORYLINE
+LeoBox1MSG  byte "Location: Raleigh, North Carolina",0dh, 0ah       ;  BOX 1
+	        byte "You are with your 3 friends, Mark, Salazar, & Oscar. You guys are in Mark's basement getting ",0dh, 0ah 
+			byte "ready to pick your guns that Mark's dad has stashed in there for years.",0dh, 0ah
+			byte "1. Glock 19 (Pistol)",0dh, 0ah
+			byte "2. M24 (Sniper Rifle)",0dh, 0ah
+			byte "3. AR-15 (Automatic Rifle)",0dh, 0ah, 0
+
+LeoBox2MSG byte "You picked the Glock 19",0dh, 0ah            ;BOX 2
+		   byte "Your friend Mark picked the AR-15",0dh, 0ah
+		   byte "Your friend Salazar picked the M24",0dh, 0ah
+		   byte "Your friend Oscar went with the combat knife on the table as he is known for being a good fighter.",0dh, 0ah
+		   byte "After picking the guns you guys went on foot to the Mayor's house as he was",0dh, 0ah
+		   byte "known to horde supplies because he expected this to happen.",0dh, 0ah
+		   byte "You guy reach the city and are about to head to the gates of the mayor's ",0dh, 0ah
+		   byte "house but a horde of zombies are coming. Timid and inexperience ",0dh, 0ah
+		   byte "Salazar is sniping but is missing. Everyone else is doing good to fight off",0dh, 0ah
+		   byte "the zombies. Oscar is fighting two zombies while Salazar is getting charged by a zombie. ",0dh, 0ah
+	       byte "It is getting crazy and you guys need to run to away to a safe location. Salazar and Oscar are getting ",0dh, 0ah
+		   byte "overwhelmed with the zombies as they are now getting charged with 5 additonal zombies each.",0dh, 0ah
+		   byte "Who will you save: ",0dh, 0ah
+		   byte "1. Oscar ",0dh, 0ah
+		   byte "2. Salazar ",0dh, 0ah, 0
+
+LeoBox3MSG  byte "You picked the M24",0dh, 0ah          ; BOX 3
+            byte "Your friend Mark picked the Glock 19",0dh, 0ah
+            byte "Your friend Salazar picked the AR-15",0dh, 0ah
+            byte "Your friend Oscar went with the combat knife on the table as he is known for being a good fighter.",0dh, 0ah
+            byte "After picking the guns you guys went on foot to the Mayor's house as he was",0dh, 0ah
+            byte "known to horde supplies because he expected this to happen.",0dh, 0ah
+            byte "You guy reach the city and are about to head to the gates of the mayor's house",0dh, 0ah
+            byte "but a horde of zombies are coming. Salazar is inexperience but with the AR-15",0dh, 0ah
+            byte "he has many chances to hit his shots. Mark is an expert with guns like you so you don't have to worry.",0dh, 0ah
+            byte "Oscar is slashing the zombies with ease since he is angry about the loss of his girlfriend.",0dh, 0ah
+            byte "After fighting for a while, you guys reach the mayor's front gate. Your ",0dh, 0ah
+            byte "friends are defending you while you crack the code to the entrace of the gate.",0dh, 0ah, 0
+LeoBox3MSG2 byte "Mayor's Front Gate ",0dh, 0ah
+            byte "Please enter the 4 digit code: ",0dh, 0ah, 0
+
+LeoBox4MSG  byte "You picked the AR-15",0dh, 0ah                       ; BOX 4
+			byte "Your friend Mark picked the M24",0dh, 0ah
+			byte "Your friend Salazar picked the Glock 19",0dh, 0ah
+			byte "Your friend Oscar went with the combat knife on the table as he is known for being a good fighter.",0dh, 0ah
+			byte "After picking the guns you guys went on foot to the Mayor's house",0dh, 0ah
+			byte "as he was known to horde supplies because he expected this to happen.",0dh, 0ah
+			byte "You guy reach the city and are about to head to the gates of the ",0dh, 0ah
+			byte "mayor's house but a horde of zombies are coming.",0dh, 0ah
+			byte "Salazar is unexperience but is holding his own with the Glock 19.",0dh, 0ah
+			byte "Mark is an expert so you don't have to worry.",0dh, 0ah
+			byte "Oscar is going on a rampage with the combat knife.",0dh, 0ah
+			byte "It's getting too dangerous though because you guys are getting overwhelmed.",0dh, 0ah
+			byte "So you guys run to the nearest abandoned apartment.",0dh, 0ah
+			byte "Which apartment number do you guys wish to enter: ",0dh, 0ah
+			byte "1. Apartment 124 ",0dh, 0ah
+			byte "2. Apartment 170 ",0dh, 0ah, 0
+
+LeoBox5MSG  byte "You saved Oscar but Salazar couldn't make it. ",0dh, 0ah         ;BOX 5
+			byte "You guys head to the closest gas station. Their are zombies chasing you guys though ",0dh, 0ah
+			byte "and as you reached the gas station a random zombie hidden inside the car starts ",0dh, 0ah
+			byte "charging you but Oscar comes and saves your life in the nick of time.",0dh, 0ah
+			byte "After that you find several cars with the keys still inside. ",0dh, 0ah
+			byte "Which car do you pick? ",0dh, 0ah
+			byte "1. 2008 Ford Mustang",0dh, 0ah
+			byte "2. 2032 Ford Lighting Raptor Edition",0dh, 0ah, 0
+
+LeoBox6MSG	byte "You saved Salazar but Oscar died protecting you guys so you guys can run ",0dh, 0ah      ;BOX 6
+			byte "away. You guys run to the closest gas station while zombies are chasing you guys down.",0dh, 0ah
+			byte "As you reach the gas station, a zombie hidden amongst the cars jumps out and bites you right in the neck.",0dh, 0ah
+			byte "You quickly turn into a zombie and end up killing your friends in the process. ",0dh, 0ah
+			byte "YOU LOSE, GAME OVER!",0dh, 0ah, 0
+
+LeoBox7MSG	byte "You guys make it through the gate! ",0dh, 0ah                      ;BOX 7
+			byte "You guys run to the mansion and Oscar breaks a window to get inside.",0dh, 0ah
+			byte "Once inside, you guys start searching for his stash room and find a hidden lever ",0dh, 0ah
+			byte "in between his cabinets. ",0dh, 0ah
+			byte "Press 1 to pull down on the lever: ",0dh, 0ah, 0
+LeoBox7MSG1 byte "The walls in his office starts to open up.",0dh, 0ah
+			byte "You guys run inside the hidden room and start collecting all sorts of supplies. ",0dh, 0ah
+			byte "After a while of collecting supplies, you guys hear someone weeping. ",0dh, 0ah
+			byte "You guys look into a dark corner and it's the mayor crying. He looks up to you guys ",0dh, 0ah
+			byte "ask if you can save his daughter Elizabeth that was last seen in a lodge north side of ",0dh, 0ah
+			byte "Raleigh. ",0dh, 0ah
+			byte "Do you guys help him find his daughter?",0dh, 0ah
+			byte "1. Yes",0dh, 0ah
+			byte "2. No",0dh, 0ah, 0
+LeoBox7NoLever byte "Um, that's not the lever... that's something else you're pulling...",0dh, 0ah
+			   byte "PULL THE LEVER NOW BY PRESSING 1",0dh, 0ah, 0
+
+LeoBox8MSG	byte "After multiple failed attempts your friends couldn't hold it down any longer. ",0dh, 0ah    ;BOX 8
+			byte "You hear screaming and you turn to the right to look and you see Mark getting eaten up.",0dh, 0ah
+			byte "Salazar gets scared and starts missing his shots and then gets eaten too.",0dh, 0ah
+			byte "Oscar kills around 4 more zombies before dying as he gets overwhelmed. ",0dh, 0ah
+			byte "The last thing you see is your friends getting eaten up and a horde of zombies are charging you.",0dh, 0ah
+			byte "You try to fight em' off but that will soon be worthless.",0dh, 0ah
+			byte "You and your friends all died because you didn't open the gates in time.",0dh, 0ah
+			byte "YOU LOSE, GAME OVER",0dh, 0ah, 0
+
+LeoBox9MSG	byte "You go to Apartment 124. It's locked, but there is a group of bodies laying in the hallway.",0dh, 0ah  ;BOX 9
+			byte "You and your friends proceed to search the dead bodies. ",0dh, 0ah
+			byte "You find keys to a car, keys to another apartment, and a skull key. ",0dh, 0ah
+			byte "You can only pick one, which will it be? ",0dh, 0ah
+			byte "1. Random Car Keys",0dh, 0ah
+			byte "2. Random Apartment Keys ",0dh, 0ah
+			byte "3. The Skull Key ",0dh, 0ah, 0
+			
+
+LeoBox10MSG byte "You go to Apartment 170 and it's open.",0dh, 0ah              ;BOX 10
+			byte "You and your three friends goes in the apartment and spread out.",0dh, 0ah
+			byte "You friend Salazar goes to the couch, Oscar goes to the fridge, ",0dh, 0ah
+			byte "and you and Mark sit at the kitchen table. ",0dh, 0ah
+			byte "Eventually you guys go to sleep and wake up the next morning",0dh, 0ah
+			byte "to set up a plan to get into the mayor's house.",0dh, 0ah, 0
+
+LeoBox11MSG byte "After getting inside the Mustang you guys decide to use it to ram it against the gate.",0dh, 0ah    ;BOX 11
+			byte "Once you reach the mayor's house, you drive it stright to the fence.",0dh, 0ah
+			byte "The fence is too strong and the Mustang gets stuck there and it doesn't",0dh, 0ah
+			byte "want to turn on anymore. You guys eventually get surrounded by zombies and die.",0dh, 0ah
+			byte "YOU LOSE, GAME OVER",0dh, 0ah, 0
+
+LeoBox12MSG byte "After getting in the 4 by 4 Ford Lighting, you guys drive to the mayor's house",0dh, 0ah  ;BOX 12
+			byte "and slam it against the gate at full speed. Then...",0dh, 0ah, 0
+
+LeoBox13MSG byte "Chapter 1 of The Last Species is completed.",0dh, 0ah       ;BOX 13
+			byte "You decided to not help the mayor.",0dh, 0ah
+			byte "Chapter 2 will come out soon!",0dh, 0ah
+			byte "YOU WON! Run the program again to explore other paths.",0dh, 0ah, 0
+			
+LeoBox14MSG byte "HIDDEN STORY UNLOCKED! ",0dh, 0ah         ;BOX 14
+			byte "You decided to help the mayor find his daughter and the journey begins. ",0dh, 0ah
+			byte "The mayor allows you guys to get in his SUV but it doesn't seem to turn on.",0dh, 0ah
+			byte "The battery is dead and needs some juice. The Mayor has a power bank that can ",0dh, 0ah
+			byte "be used to charge a battery. You connect the jumper cables to the power bank.",0dh, 0ah, 0
+
+LeoBox14MSG1 byte "Positive(+) cables goes with _",0dh, 0ah, 0
+LeoBox14MSG2 byte "Negative(-) cables goes with _",0dh, 0ah, 0
+LeoBox14MSG3 byte "You are correct! ",0dh, 0ah, 0
+LeoBox14MSG4 byte "One or more of your answers is wrong! Try Again!",0dh, 0ah, 0
+
+LeoBox15MSG byte "After collecting your item, Salazar ends up finding the key ",0dh, 0ah    ;BOX 15
+			byte "to the apartment and you guys go inside. You guys stay the night to rest ",0dh, 0ah
+			byte "and the next morning you guys set-up a plan to get into the mayor's house.",0dh, 0ah, 0
+
+LeoBox16MSG byte "After arguing with eachother, you guys are down to two plans.",0dh,0ah      ;BOX 16
+			byte "Which plan will you choose: ",0dh, 0ah
+			byte "1. Go back to the gate to figure out the 4 digit code.",0dh, 0ah
+			byte "2. Go to the local hardware store to get a rope to climb over the mayor's wall.",0dh, 0ah, 0
+
+LeoBox17MSG byte "After driving for a while, you guys enter a wooded area. ",0dh, 0ah        ;BOX 17
+			byte "Out of nowhere, groups of zombies start jumping on the SUV, ",0dh, 0ah
+			byte "causing you guys to crash in a ditch. Everyone is fine but the SUV ",0dh, 0ah
+			byte "doesn't turn on anymore. You guys are loaded with supplies and ammo though ",0dh, 0ah
+			byte "so you guys start shooting as much zombies as you can!",0dh, 0ah
+			byte "START SHOOTING!",0dh, 0ah, 0
+LeoBox17MSG1 byte "Press k and then hit enter to kill the zombie!",0dh, 0ah, 0
+  
+LeoBox17MSG2 byte "YOU MISSED! THE ZOMBIE BIT YOU AND YOU DIED.",0dh, 0ah
+			 byte "YOU LOSE! GAME OVER!",0dh, 0ah, 0
+LeoBox17MSG3 byte "Press i and then hit enter to kill the zombie! ",0dh, 0ah, 0
+LeoBox17MSG4 byte "Press l and then hit enter to kill the third zombie! ",0dh, 0ah, 0
+LeoBox17MSG5 byte "One more to go! ",0dh, 0ah
+			 byte "Press l and then hit enter to kill the last zombie!",0dh, 0ah, 0
+
+LeoBox18MSGWAPTKEY byte "As you guys are leaving the apartment, you try to open ",0dh, 0ah     ;BOX 18
+					byte "random apartment doors with the key you found. After multiple attempts ",0dh, 0ah
+					byte "you finally found the apartment that opens with your key!",0dh, 0ah
+					byte "You enter the apartment and see pictures of the mayor hanged up around the walls. ",0dh, 0ah
+					byte "This is most likely an apartment that the mayor or his relatives owned. ",0dh, 0ah
+					byte "As you walk around the apartment, you find a note on the kitchen table. ",0dh, 0ah
+					byte "This could be a clue to open the gate. It says... ",0dh, 0ah
+					byte "->  CLUE: THE DATE BEFORE CHRISTMAS  <-",0dh, 0ah
+					byte "You put the note in your pocket and then...",0dh, 0ah, 0
+LeoBox18MSG			byte "You guys head to the gate to crack the code.",0dh, 0ah
+					byte "You reach there and it is up to you while your friends defend you.",0dh, 0ah
+					byte "Mayor's Front Gate ",0dh, 0ah
+                    byte "Please enter the 4 digit code: ",0dh, 0ah, 0
+LeoBox18MSG1		byte "After many failed attempts, your friends couldn't defend you any longer ",0dh, 0ah
+					byte "the zombies started tearing you guys apart, limb by limb. ",0dh, 0ah
+					byte "YOU LOSE! GAME OVER! ",0dh, 0ah, 0
+
+LeoBox19MSGWCARKEY	byte "You and your friends are running towards the hardware store. ",0dh, 0ah     ;BOX 19
+					byte "In desperation, you keep spamming the alarm button on the car keys hoping to find ",0dh, 0ah
+					byte "the car that belong to these keys. Eventually you hear a siren and it's ",0dh, 0ah
+					byte "a cop car. Your keys belong to a cop car! ",0dh, 0ah
+					byte "Now with a cop car, do you decide to drive to the hardware store still ",0dh, 0ah
+					byte "or drive to the mayor's house to ram the cop car through the gates? ",0dh, 0ah
+					byte "1. Hardware Store",0dh, 0ah
+					byte "2. Ram the Gates",0dh, 0ah, 0
+
+LeoBox20MSG			byte "You arrive at the hardware store and you guys walk in.",0dh, 0ah        ;BOX 20
+					byte "In the shadows, you see dozens of eyes glowing and staring right at you. ",0dh, 0ah
+					byte "This doesn't end well...",0dh, 0ah
+					byte "YOU LOSE! GAME OVER! ",0dh, 0ah, 0
+
+LeoBox21MSG			byte "You guys get to the mayor's house and with max speed, ",0dh, 0ah         ;BOX 21
+					byte "you slam against the gates; the bull bar served its purpose! ",0dh, 0ah
+					byte "The cop car stops working but ...",0dh, 0ah, 0
+
+LeoBox22MSG			byte "Nice aim! You took down all the four zombies! ",0dh, 0ah           ;BOX 22
+					byte "Your friends take down the remaining zombies and you ",0dh,0ah
+					byte "guys start running towards the woods, the mayor ",0dh, 0ah
+					byte "said his daughter was around these wooded areas in a lodge.",0dh, 0ah
+					byte "START RUNNING! ",0dh, 0ah
+					byte "Press the Spacebar and then hit enter to run.",0dh, 0ah, 0
+
+LeoBox22MSG1 byte "You tripped and fell, the zombies got to you.",0dh,0ah
+			 byte "I told you to press spacebar and spacebar only! ",0dh, 0ah
+			 byte "YOU LOSE! GAME OVER",0dh,0ah,0
+
+LeoBox23MSG  byte "After running for a while, you guys notice there is still a lot of ",0dh, 0ah   ;BOX 23
+			 byte "zombies chasing you guys. Oscar decides that he should sacrifice ",0dh, 0ah
+			 byte "himself to allow you guys to escape. ",0dh, 0ah
+			 byte "Do you let him? ",0dh,0ah
+			 byte "1. Yes ",0dh, 0ah
+			 byte "2. No ",0dh, 0ah, 0
+
+LeoBox24MSG byte "Oscar dies a gruesome death but he didn't die without a fight. ",0dh, 0ah      ;BOX 24
+			byte "He gave you guys enough time to out-run the zombies and ",0dh, 0ah
+			byte "eventually you guys see a lodge out in the distance. It could be the ",0dh, 0ah
+			byte "lodge where the mayor's daughter was staying at. ",0dh,0ah
+			byte "You guys get to the lodge but the door is locked but there is an ",0dh, 0ah
+			byte "axe outside, do you guys proceed to use it to break it down? ",0dh, 0ah
+			byte "1. Yes",0dh, 0ah
+			byte "2. No", 0dh, 0ah, 0
+
+LeoBox25MSG byte "You guys don't let Oscar sacrifice himself so you guys keep on running.",0dh, 0ah      ;BOX 25
+			byte "Eventually you guys are running out of breath and start slowing down. ",0dh, 0ah
+			byte "The zombies eventually catch up to you guys and take you guys out one by one ",0dh, 0ah
+			byte "until there is no more of you guys left.",0dh,0ah
+			byte "YOU LOSE! GAME OVER! ",0dh,0ah, 0
+
+LeoBox26MSG byte "It doesn't matter what you picked because you ignore the two options and decide to explore around the area ",0dh, 0ah            ;BOX 26
+			byte "to find a way in. As you are walking around the wooded area you notice ",0dh, 0ah
+			byte "a unique looking tree. The tree looks like it was mad-made and once you walk up to it ",0dh, 0ah
+			byte "you notice a key hole that matches the skull key you picked up earlier. "
+			byte "You insert the key into the tree.",0dh, 0ah
+			byte "Press k to unlock the tree",0dh, 0ah, 0
+
+LeoBox27MSG byte "You guys breakdown the door with the axe and go inside.",0dh, 0ah                 ;BOX 27
+			byte "Right when you walk in you get blasted by the mayor's daughter ",0dh, 0ah
+			byte "with a shotgun and you die. Maybe next time say something before walking in with an axe...",0dh, 0ah
+			byte "YOU LOSE! GAME OVER!",0dh, 0ah, 0
+
+LeoBox28MSG  byte "You guys see a window and bash it down. Once the window is broken ",0dh,0ah      ;BOX 28
+			 byte "you yell for her name. After no response, you go inside through the window. ",0dh, 0ah
+			 byte "Then out of nowhere, she jumps out and shoots you and.... ",0dh,0ah,0
+LeoBox28MSG1 byte "Enter a number 1-100 to see if you survive: ",0dh, 0ah, 0
+
+LeoBox29MSG  byte "You opened up the tree! ",0dh, 0ah                                 ;BOX 29
+			 byte "Inside there's a box similar to the mystery box from ",0dh, 0ah
+			 byte "Call of Duty Zombies! ",0dh, 0ah, 0
+LeoBox29MSG1 byte "Enter a number 1-4 to see what you get from the box! ",0dh, 0ah, 0
+
+LeoBox30MSG  byte "You're not pressing k, press k now!!!",0dh,0ah, 0               ;BOX 30
+
+LeoBox31MSG  byte "She has bad aim! She didn't shoot you but almost did.",0dh, 0ah    ;BOX 31
+			 byte "She sees her farther and runs to hug him.",0dh, 0ah
+			 byte "You saved the mayor's daughter!",0dh, 0ah
+			 byte "Chapter 1 completed! ",0dh, 0ah
+			 byte "Easter Egg completed! ",0dh, 0ah
+			 byte "Chapter 2 will come out soon!",0dh, 0ah
+			 byte "YOU WON! Run the program again to explore other paths.",0dh, 0ah, 0
+
+LeoBox32MSG  byte "The mayor's daughter shot you. It's too graphic to describe the scene.",0dh,0ah    ;BOX 32
+		     byte "YOU LOSE! GAME OVER",0dh, 0ah, 0
+
+LeoBox33MSG  byte "You got an NFT, it's worthless now but you have it.",0dh, 0ah         ;BOX 33
+			 byte "You go back to the lodge and now you have to decide on using ",0dh, 0ah
+			 byte "the axe or not to break down the door to gain entrance.",0dh, 0ah
+			 byte "1. Use the axe ",0dh, 0ah
+			 byte "2. Don't use the axe ",0dh, 0ah, 0
+
+LeoBox34MSG  byte "You got the IRONMAN SUIT! You put it on and you can now destory anything in your way!",0dh, 0ah  ;BOX 34
+			 byte "You use your homing multi-missles to eradicate the zombies in ",0dh, 0ah
+			 byte "20 mile radius. This will forsure led you guys to an easy life in this crazy world.",0dh, 0ah
+			 byte "Chapter 1 completed! ",0dh, 0ah
+			 byte "Easter Egg completed! ",0dh, 0ah
+			 byte "Chapter 2 will come out soon!",0dh, 0ah
+			 byte "YOU WON! Run the program again to explore other paths.",0dh, 0ah, 0
+
+LeoBox35MSG  byte "The box opens and a dozen of zombies start coming out of there.",0dh, 0ah    ;BOX 35
+             byte "You run back to the lodge but you bring many zombies with you. ",0dh, 0ah
+			 byte "You and your group gets eaten within minutes...",0dh, 0ah
+			 byte "YOU LOSE! GAME OVER!",0dh, 0ah, 0
+
+LeoBox36MSG  byte "The box opens and there's nothing in there. You just wasted your time.",0dh, 0ah          ;BOX 36
+             byte "You go back to the lodge and now you have to decide on using the axe to break down the locked ",0dh, 0ah
+			 byte "door or to not use it at all. ",0dh, 0ah
+			 byte "1. Use the axe ",0dh, 0ah
+			 byte "2. Don't use it",0dh, 0ah, 0
+
+
+					
+
+; -------------------------------------------------------------------------
+
+
+.code
+; BELOW HERE YOU WILL WRITE ALL YOUR CODE
+
+
+
+main PROC
+
+; INTRO DISPLAY
+mov edx, offset title1
+call writestring
+call crlf
+call crlf
+mov edx, offset intromessage
+call writestring
+call crlf
+mov edx, offset placeholder
+call writestring
+call readint       ; USER HITS 1 TO START THE STORY, IF DOESNT HIT 1 IT WILL LEAVE A COMMENT FOR THE USER TO HIT 1 AGAIN
+mov ebx, eax
+call crlf
+call crlf
+call crlf
+cmp ebx, 1
+je LEO
+jne really
+
+
+
+
+
+main ENDP
+
+
+;--------------------------------------------
+LEO PROC
+mov digitcode, 1224                   ; THIS IS THE PASSWORD FOR THE ENTRANCE OF THE GATE
+mov edx, offset LeoBox1MSG
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint
+mov ebx, eax
+call crlf
+call crlf
+call crlf
+cmp ebx, 1
+je glock19sender
+cmp ebx, 2
+je m24sender
+cmp ebx, 3
+je ar15sender
+
+
+glock19sender:                   ; IF THE USER PICKS THE GLOCK EVERYTHING ELSE LEADS TO GLOCK PATH
+mov edx, offset LeoBox2MSG
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint
+mov ebx, eax
+cmp ebx, 1
+je box5sender
+jne box6
+
+box5sender:                         ; SAVES OSCAR    
+call box5
+jmp endGunCon
+box6:                               ; SAVES SALAZAR 
+call crlf
+call crlf
+call crlf
+mov edx, offset LeoBox6MSG
+call writestring
+jmp endGunCon
+
+
+
+m24sender:                           ; IF THE USER PICKED THE M24 AND EVERYTHING ELSE HERE WILL FOLLOW A PATH
+mov edx, offset LeoBox3MSG 
+call writestring
+call crlf
+mov edx, offset LeoBox3MSG2
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint
+cmp eax, digitcode
+je accessgranted
+jne try1
+
+accessgranted:           ; IF THE USER WAS ABLE TO CRACK THE CODE TO THE MAYORS GATE
+call box7
+jmp endGunCon
+
+try1:                    ; TRY1 TO DEATH, IF THE USER MISSES UP 3 TIMES ON THE PIN THEY WILL LOSE
+call crlf
+call crlf
+mov edx, offset Er1
+call writestring
+mov edx, offset LeoBox3MSG2
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint
+cmp eax, digitcode
+je accessgranted
+jne try2
+
+try2:
+call crlf
+call crlf
+mov edx, offset Er2
+call writestring
+mov edx, offset LeoBox3MSG2
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint
+cmp eax, digitcode
+je accessgranted
+jne box8death
+
+
+box8death:                     ; USER LOSES AFTER MULTIPLE FAILED ATTEMPTS
+call crlf
+call crlf
+call crlf
+mov edx, offset Er3
+call writestring
+mov edx, offset LeoBox8MSG
+call writestring
+call crlf
+jmp endGunCon
+
+
+ar15sender:                          ; IF THE USER PICKED THE AR AND THIS IS ANOTHER PATH
+mov carkeys, 0
+mov aptkeys, 0
+mov skullkeys, 0
+mov edx, offset LeoBox4MSG
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint
+mov ebx, eax
+cmp ebx, 1
+je apt124
+jne apt170
+
+apt124:                          ; IF USER PICKED APT 124
+call crlf
+call crlf
+call crlf
+mov edx, offset LeoBox9MSG
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint                     ; HERE THE USER WILL COLLECT AN ITEM WHICH WILL HELP THEM DOWN THE LINE
+mov ebx, eax
+cmp ebx, 1
+je choice1
+cmp ebx, 2
+je choice2
+cmp ebx, 3
+je choice3
+jmp endGunCon
+
+choice1:              ; CAR KEYS
+mov carkeys, ebx
+jmp LeoBox15
+jmp endGunCon
+
+choice2:               ; APT KEYS
+mov aptkeys, ebx
+jmp LeoBox15
+jmp endGunCon
+
+choice3:                ; SKULLKEY
+mov skullkeys, ebx
+jmp LeoBox15
+jmp endGunCon
+
+LeoBox15:              ; AFTER PICKING THEIR ITEM, THEY WILL GO ON WITH THE STORY
+call crlf
+call crlf
+call crlf
+mov edx, offset LeoBox15MSG
+call writestring
+call box16
+jmp endGunCon
+
+
+apt170:                  ; IF THE USER PICKED APT 170 THERE WILL BE NO ITEMS FOR THEM TO COLLECT BUT WILL LEAD THEM DOWN THE SAME PATH
+call crlf                ; APT 170 CHOICE IS HARDER
+call crlf
+call crlf
+mov edx, offset LeoBox10MSG
+call writestring
+call box16
+
+endGunCon:               
+
+ret
+LEO ENDP
+
+really PROC                    ; WHEN THE USER DOESNT WANT TO START THE GAME
+mov edx, offset bruh
+call writestring
+jmp main
+
+
+ret
+really ENDP
+
+box5 PROC                    ; BOX IS WHEN THEY HAVE TO PICK BETWEEN TWO CARS
+call crlf 
+call crlf
+call crlf
+mov edx, offset LeoBox5MSG
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint
+mov ebx, eax
+cmp ebx, 1
+je mustang
+jne raptor
+
+mustang:                   ; MUSTANG LEADS TO DEATH
+call crlf
+call crlf
+call crlf
+mov edx, offset LeoBox11MSG
+call writestring
+jmp endBox5
+
+raptor:                     ; RAPTOR LEADS THEM TO BREAK OPEN THE GATES
+call crlf 
+call crlf
+call crlf
+mov edx, offset LeoBox12MSG
+call writestring
+call box7
+jmp endBOx5
+
+endBox5:
+
+
+ret
+box5 ENDP
+
+
+box7 PROC     ; BOX 7 LEADS TO VICTORY. A PATH HAS TO HIT BOX 7 IN ORDER FOR THEM TO WIN. MANY BOXES/PATHS LEADS HERE SO IT HAS ITS OWN PROC
+call crlf
+call crlf
+call crlf
+mov edx, offset LeoBox7MSG
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint
+call crlf
+call crlf
+call crlf
+mov ebx, eax
+cmp ebx, 1
+je nextline                      ; IF THE USER HITS 1 FOR THE LEVER
+jne dntHitLever                  ; IF THE USER DOESNT HIT 1
+
+nextline:                       ; WILL ASK IF THE USER WANTS TO SAVE THE MAYORS DAUGHTER OR NOT
+mov edx, offset LeoBox7MSG1
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint
+call crlf
+call crlf
+call crlf
+mov ebx, eax
+cmp ebx, 1
+je egg 
+jne chp1Done
+jmp endBox7
+
+
+
+dntHitLever:                          ; IF THE USER DOESNT HIT 1 FOR LEVER, IT WILL SEND THEM BACK UNTIL THEY ACTUALLY HIT 1
+mov edx, offset LeoBox7NoLever
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint
+call crlf
+mov ebx, eax
+cmp ebx, 1
+je nextline
+jne dntHitLever
+jmp endBox7
+
+egg:                                           ; IF THE USER SAYS YES ON SAVING THE MAYOR
+mov edx, offset LeoBox14MSG
+call writestring
+mov edx, offset LeoBox14MSG1
+call writestring
+mov edx, offset placeholder
+call writestring
+mov edx, offset posguess 
+mov ecx, 0 
+mov ecx, sizeof posguess
+call readstring                        ; WILL STORE THE SYMBOL IN THIS VARIABLE
+mov eax, posguess
+cmp eax, 655403                      ; THIS NUMBER EQUALS TO + ON THE KEYBOARD
+je correct                          
+jne incorrect
+jmp endBox7
+
+correct:                                 ; IF THE VARIABLE AND THE NUMBER MATCH IT WILL SEND THEM TO DO THE NEGATIVE CABLES
+mov edx, offset LeoBox14MSG2
+call writestring
+mov edx, offset placeholder
+call writestring
+mov edx, offset negguess
+mov ecx, 0
+mov ecx, sizeof negguess                  ; STORES THE NEGATIVE VARIABLE THE USER INPUTS 
+call readstring
+mov eax, negguess
+cmp eax, 655405              ; THIS NUMBER EQUALS TO - ON THE KEYBOARD
+je finalcorrect
+jne finalincorrect
+jmp endBox7
+
+incorrect:                   ; IF THE USER DOESNT ENTER THE CORRECT ANSWER FOR POSITIVE CABLE
+call crlf
+mov edx, offset LeoBox14MSG4
+call writestring
+jmp egg
+
+finalcorrect:                   ; IF THE USER ENTERS THE CORRECT ANSWER FOR BOTH CABLES
+mov edx, offset LeoBox14MSG3
+call writestring
+call box17
+jmp endBox7
+
+finalincorrect:                   ; IF THE USER DOESNT ENTER THE CORRECT ANSWER FOR NEGATIVE CABLE
+call crlf
+mov edx, offset LeoBox14MSG4
+call writestring
+jmp egg
+
+chp1Done:                        ; IF THE USER PROCEEDS TO NOT HELP THE MAYOR, THEY WIN REGARDLESS BUT WON'T UNLOCK NEW STORIES NOR EASTEREGGS
+call crlf
+call crlf
+call crlf
+mov edx, offset LeoBox13MSG
+call writestring
+jmp endBox7
+
+box17:                          ; ONCE YOU ARE ON THE ROAD AFTER FIXING THE CABLES, YOU WILL FIGHT ZOMBIES HERE
+call crlf                       ; THEY WILL SHOOT AT FOUR ZOMBIES, IF ANY BULLET MISSES THE USER WILL DIE
+call crlf                       ; I WILL ASK THE USER TO TYPE THE LETTERS K, I, L IN ORDER TO KILL THE ZOMBIES
+call crlf                       ; THE MORE ZOMBIES THEY KILL, THE LESS OF THE FACES ARE SHOWN
+mov edx, offset LeoBox17MSG
+call writestring
+mov edx, offset zombieface
+call writestring
+mov edx, offset zombieface1
+call writestring
+mov edx, offset zombieface
+call writestring
+mov edx, offset zombieface1
+call writestring
+mov edx, offset LeoBox17MSG1
+call writestring
+mov edx, offset placeholder
+call writestring
+mov edx, offset findwo
+mov ecx, sizeof findwo
+call readstring
+mov eax, findwo
+cmp eax, 655467 ; k
+je next
+cmp eax, 655435 ; K
+je next
+jne death
+jmp endbox7
+
+next:
+call crlf
+call crlf
+mov edx, offset zombieface1
+call writestring
+mov edx, offset zombieface
+call writestring
+mov edx, offset zombieface1
+call writestring
+mov edx, offset LeoBox17MSG3
+call writestring
+mov edx, offset placeholder
+call writestring
+mov edx, offset findwo
+mov ecx, sizeof findwo
+call readstring
+mov eax, findwo
+cmp eax, 655465
+je next1
+cmp eax, 655433
+je next1
+jne death
+jmp endbox7
+
+next1:
+mov edx, offset zombieface
+call writestring
+mov edx, offset zombieface1
+call writestring
+mov edx, offset LeoBox17MSG4
+call writestring
+mov edx, offset placeholder
+call writestring
+mov edx, offset findwo
+mov ecx, sizeof findwo
+call readstring
+mov eax, findwo
+cmp eax, 655468
+je next2
+cmp eax, 655436
+je next2
+jne death
+jmp endbox7
+
+next2:
+mov edx, offset zombieface1
+call writestring
+mov edx, offset LeoBox17MSG5
+call writestring
+mov edx, offset placeholder
+call writestring
+mov edx, offset findwo
+mov ecx, sizeof findwo
+call readstring
+mov eax, findwo
+cmp eax, 655468
+je mrkem
+cmp eax, 655436
+je mrkem
+jne death
+jmp endbox7
+
+mrkem:                        ; IF THE USER KILLS ALL FOUR ZOMBIES
+mov ebx, 0
+call crlf
+call crlf
+call crlf
+mov edx, offset LeoBox22MSG
+call writestring
+mov edx, offset placeholder
+call writestring
+mov edx, offset findwo
+mov ecx, sizeof findwo
+call readstring
+mov eax, findwo
+cmp eax, 655392
+je firststep
+jne strike
+jmp endBOx7
+
+firststep:                        ;HERE I WILL MAKE THE USER RUN BY PRESSING THE SPACEBAR
+mov edx, offset shoe              ; IF DONT CLICK THE SPACEBAR ATLEAST 3 TIMES, THE USER LOSES
+call writestring
+mov edx, offset placeholder
+call writestring
+mov edx, offset findwo
+mov ecx, sizeof findwo
+call readstring
+mov eax, findwo
+cmp eax, 655392
+je secondstep
+jne strike1
+jmp endBOx7
+
+secondstep:
+mov edx, offset shoe
+call writestring
+mov edx, offset placeholder
+call writestring
+mov edx, offset findwo
+mov ecx, sizeof findwo
+call readstring
+mov eax, findwo
+cmp eax, 655392
+je laststep
+jne strike2
+jmp endBOx7
+
+laststep:
+mov edx, offset shoe
+call writestring
+mov edx, offset placeholder
+call writestring
+mov edx, offset findwo
+mov ecx, sizeof findwo
+call readstring
+mov eax, findwo
+cmp eax, 655392
+je dnstep
+jne strike3
+jmp endBOx7
+
+dnstep:                             ; ONCE THE USER STEPS AKA RUNS SUCCESSFULLY TO THE LODGE
+call crlf
+call crlf
+call crlf
+mov edx, offset LeoBox23MSG
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint
+mov ebx, eax
+cmp ebx, 1
+je allowhim
+jne dntallowhim
+jmp endBox7
+ 
+allowhim:                         ; IF THE USER ALLOWS OSCAR TO DIE
+call crlf
+call crlf
+call crlf
+mov edx, offset LeoBox24MSG
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint
+mov ebx, eax
+cmp skullkeys, 3
+je go3option
+cmp ebx, 1
+je useaxe
+jne dntuseaxe
+jmp endBox7
+
+go3option:                           ; IF THE USER HAS THE SKULL KEY THIS WILL ACTIVATE INSTEAD OF THE OTHER TWO CHOICES. REALLY HARD TO ACTIVATE THIS
+call crlf 
+call crlf
+call crlf
+mov edx, offset LeoBox26MSG
+call writestring
+mov edx, offset placeholder
+call writestring
+mov edx, offset findwo
+mov ecx, sizeof findwo
+call readstring
+mov eax, findwo
+cmp eax, 655467 ; k
+je funpart
+cmp eax, 655435 ; K
+je funpart
+jne tryagain
+
+funpart:                               ; WILL SEND THE USER TO PICK ONE OF THE FOUR ITEMS, ALL HAVE DIFFERENT ACTIONS
+mov edx, offset LeoBox29MSG
+call writestring
+mov edx, offset LeoBox29MSG1
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint
+cmp eax, 1
+je nft
+cmp eax, 2
+je ironman
+cmp eax, 3
+je zombiespawner
+jne nothing
+jmp endBox7
+
+tryagain:                            ; IF THE USER DOESNT HIT THE KEY TO OPEN THE TREE
+mov edx, offset LeoBox30MSG
+call writestring
+jmp go3option
+jmp endBox7
+ 
+nft:                        ; USER GETS A NFT, I THINK THIS IS FUNNY, SENDS THE USER BACK TO THE LODGE
+mov edx, offset LeoBox33MSG
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint
+mov ebx, eax
+cmp ebx, 1
+je useaxe
+jne dntuseaxe
+jmp endBox7
+
+ironman:                     ; COOL EASTEREGG IF THE USER PICKS THE RIGHT NUM FOR IRONMAN
+call crlf
+call crlf
+call crlf
+mov edx, offset LeoBox34MSG
+call writestring
+jmp endBox7
+
+zombiespawner:                  ; USER LOSES AFTER PICKING THE NUMBER THAT SPAWNS THE ZOMBIES
+call crlf
+call crlf
+call crlf
+mov edx, offset LeoBox35MSG
+call writestring
+jmp endBox7
+
+nothing:                        ; NOTHING HAPPENS IF THE USER PICKS THIS AND IT WILL SEND THEM BACK TO THE LODGE
+call crlf
+call crlf
+call crlf
+mov edx, offset LeoBox36MSG
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint
+mov ebx, eax
+cmp ebx, 1
+je useaxe
+jne dntuseaxe
+jmp endBox7
+
+useaxe:                     ; IF THE USER USES THE AXE, THEY LOSE
+call crlf
+call crlf
+call crlf
+mov edx, offset LeoBox27MSG
+call writestring
+jmp endBox7
+
+dntuseaxe:               ; IF THE USER DOESNT USE THE AXE, THEY CAN MAYBE LOSE
+call crlf
+call crlf
+mov edx, offset LeoBox28MSG
+call writestring
+mov edx, offset LeoBox28MSG1
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint 
+cmp eax, 33
+jge survived
+jle ripbozo
+
+survived:                     ; IF THE USER PICKS A NUMBER HIGHER THAN 33
+call crlf
+call crlf
+call crlf
+mov edx, offset LeoBox31MSG
+call writestring
+jmp endBox7
+
+ripbozo:                         ; IF THE USER PICKS A NUMBER LOWER THAN 33
+call crlf
+call crlf
+call crlf
+mov edx, offset LeoBox32MSG
+call writestring
+jmp endBox7
+
+
+dntallowhim:                        ; THIS IS IF THE USER DOESNT ALLOW OSCAR TO DIE, USER LOSES
+call crlf
+call crlf
+call crlf
+mov edx, offset LeoBox25MSG
+call writestring
+jmp  endBox7
+
+strike:                             ; THE STRIKES BELOW ARE COUNTERS. IF IT HITS THREE THE USER LOSES
+add ebx, 1
+cmp ebx, 3
+je tripped
+jne mrkem
+jmp endBox7
+
+strike1:
+add ebx, 1
+cmp ebx, 3
+je tripped
+jne firststep
+jmp endBox7
+
+strike2:
+add ebx, 1
+cmp ebx, 3
+je tripped
+jne secondstep
+jmp endBox7
+
+strike3:
+add ebx, 1
+cmp ebx, 3
+je tripped 
+jne laststep
+jmp endBox7
+
+tripped:                            ; USER LOSES AFTER TRIPPING
+mov edx, offset LeoBox22MSG1
+call writestring
+jmp endBox7
+
+
+death:                              ; IF THE USER DOESNT KILL THE FOUR ZOMBIES
+call crlf
+call crlf
+call crlf
+mov edx, offset LeoBox17MSG2
+call writestring
+
+endBox7:
+
+ret
+box7 ENDP
+
+
+box16 PROC                           ; BOX 16 IS A PATH TWO UPPER PATHS LEADS TO
+call crlf
+call crlf
+call crlf
+mov edx, offset LeoBox16MSG
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint
+mov ebx, eax
+cmp ebx, 1
+je goback
+jne hardware
+
+goback:                        ; IF THE USER DECIDES TO CRACK OPEN THE GATES
+call crlf
+call crlf
+call crlf
+cmp aptkeys, 2
+je aptdialog
+jne nodialog
+
+aptdialog:                        ; THIS ACTIVATES IF THE USER HAS THE APTKEYS 
+call crlf
+call crlf
+call crlf
+mov edx, offset LeoBox18MSGWAPTKEY
+call writestring
+jmp endBox16
+
+
+nodialog:                          ; SENDS THE USER STRAIGHT TO UNLOCKING THE GATES W NO CLUE
+mov edx, offset LeoBox18MSG
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint
+cmp eax, digitcode
+je accessgranted1
+jne try1PT2
+
+
+accessgranted1:                  ; IF THEY CRACK THE CODE THEY GO TO BOX 7
+call box7
+jmp endBox16
+
+try1PT2:                         ;  USER HAS THREE TRIES TO OPEN THE GATES
+call crlf
+call crlf
+mov edx, offset Er1
+call writestring
+mov edx, offset LeoBox3MSG2
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint
+cmp eax, digitcode
+je accessgranted1
+jne try2PT2
+
+try2PT2:
+call crlf
+call crlf
+mov edx, offset Er2
+call writestring
+mov edx, offset LeoBox3MSG2
+call writestring
+mov edx, offset placeholder
+call writestring
+call readint
+cmp eax, digitcode
+je accessgranted1
+jne theboxdeath
+
+
+theboxdeath:           ; IF THE USER FAILS OPENING THE GATES
+call crlf
+call crlf
+call crlf
+mov edx, offset Er3
+call writestring
+mov edx, offset LeoBox18MSG1
+call writestring
+jmp endBox16
+
+hardware:               ; IF THE USER DECIDES TO GO TO THE HARDWARE STORE, LOSES
+call crlf
+call crlf
+call crlf
+cmp carkeys, 1
+je cardialog
+jne nocardialog
+jmp endBox16
+
+cardialog:                             ; IF THE USER PICKED THE CAR KEYS
+mov edx, offset LeoBox19MSGWCARKEY
+call writestring
+call readint
+cmp eax, 1
+je elhardware
+jne smashdagates
+jmp endBox16
+
+nocardialog:                        ; IF THE USER DIDNT PICK THE CAR KEYS
+mov edx, offset LeoBox20MSG
+call writestring
+jmp endBox16
+
+elhardware:               ; IF THE USER WITH THE CAR DECIDES TO STILL GO TO THE HARDWARE STORE
+call nocardialog
+jmp endBox16
+ 
+smashdagates:                  ; IF THE USER WITH THE CAR DECIDES TO GO TO THE GATES
+call crlf
+call crlf
+call crlf
+mov edx, offset Leobox21MSG
+call writestring
+call box7
+
+endBox16:
+
+ret
+box16 ENDP       ; IM FINALLY DONE LETS GOOOOOOOOO
+
+END MAIN
+; THE LAST SPECIES
