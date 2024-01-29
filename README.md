@@ -1,6 +1,6 @@
-- 👋 Hi, I’m @704chopsuey
+- 👋 Hi, I’m Ariel T!
 - 👀 I’m interested in ... Games
-- 🌱 I’m currently learning ... C++, Assembly, and want to start on Python
+- 🌱 I’m currently learning ... C++, Assembly, and Python
 - 💞️ I’m looking to collaborate on ... Anything!
 - 📫 How to reach me ... arieltrejo0804@gmail.com 
 
